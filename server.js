@@ -16,6 +16,7 @@ app.use(express.static(__dirname + '/public'));
 
 var env = process.env.NODE_ENV || 'development';
 var knexConfig = require('./knexfile.js')[env];
+console.log(knexConfig);
 var knex = require('knex')(knexConfig);
 var bookshelf = require('bookshelf')(knex);
 

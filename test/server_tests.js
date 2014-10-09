@@ -38,6 +38,7 @@ describe('api', function() {
     };
     request.post(baseURL + '/api/people', { form: data }, function(err, response, body) {
       Person.fetchAll().then(function(people) {
+        // TODO: JSON response expectation
         var peopleWithoutIds = people.toJSON().map(function(person) {
           return _.omit(person, 'id');
         });

@@ -38,11 +38,21 @@ app.get('/api/people', function(req, res) {
 // url: http://localhost:8000/api/people?firstName=lamp&lastName=love&address=portland
 // returns: {"people": []}
 app.post('/api/people', function(req, res) {
-  var person = _.pick(req.body, 'firstName', 'lastName', 'address');
-  Person.forge(person).save().then(function(person) {
-    res.json({ person: person });
-  })
-  .done();
+  var properties = _.keys(req.body);
+  if (!_.isEqual(properties, ['firstName', 'lastName', 'address'])) {
+    res.status(400);
+    res.json({ error: 'Invalid request. Properties don\'t match allowed values.' });
+  }
+  else {
+    Person.forge(req.body).save().then(function(person) {
+      res.json({ person: person });
+    })
+    .catch(function(error) {
+      res.status(500);
+      res.json({ error: 'Unhandled exception' });
+    })
+    .done();
+  }
 });
 
 app.put('/api/people/:id', function(req, res) {

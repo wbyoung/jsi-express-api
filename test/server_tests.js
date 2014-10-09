@@ -52,4 +52,20 @@ describe('api', function() {
     });
   });
 
+  it('rejects POST /api/people when there is too much info', function(done) {
+    var data = {
+      firstName: 'Whitney',
+      lastName: 'Young',
+      address: 'Chicago',
+      puppies: '12 of them'
+    };
+    request.post(baseURL + '/api/people', { form: data }, function(err, response, body) {
+      expect(response.statusCode).to.eql(400);
+      Person.fetchAll().then(function(people) {
+        expect(people.toJSON()).to.eql([]);
+        done();
+      });
+    });
+  });
+
 });

@@ -29,11 +29,10 @@ app.get('/api/people', function(req, res) {
 // returns: {"people": []}
 app.post('/api/people', function(req, res) {
   var person = _.pick(req.body, 'firstName', 'lastName', 'address');
-  res.json({ person: person });
   Person.forge(person).save().then(function(person) {
-  console.log('created a person %j', person.toJSON());
-})
-.done();
+    res.json({ person: person });
+  })
+  .done();
 });
 
 app.put('/api/people/:id', function(req, res) {

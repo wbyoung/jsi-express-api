@@ -7,7 +7,7 @@ module.exports = {
       user     : process.env.APP_DB_USER     || '',
       password : process.env.APP_DB_PASSWORD || '',
       database : process.env.APP_DB_NAME     || 'people'
-}
+    }
   },
 
   staging: {

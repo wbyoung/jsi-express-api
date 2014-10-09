@@ -92,7 +92,7 @@ module.exports = {
 
 // if this was done via the command line & not required from another file
 if (require.main === module) {
-  var server = app.listen(8000, function() {
+  var server = app.listen(process.env.PORT || 8000, function() {
     console.log('Listening on port %d', server.address().port);
   });
 }

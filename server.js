@@ -8,6 +8,15 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var env = process.env.NODE_ENV || 'development';
+var knexConfig = require('./knexfile.js')[env];
+var knex = require('knex')(knexConfig);
+var bookshelf = require('bookshelf')(knex);
+
+var Person = bookshelf.Model.extend({
+  tableName: 'people'
+});
+
 var id = 1;
 var people = {};
 
@@ -15,11 +24,16 @@ app.get('/api/people', function(req, res) {
   res.json({ people: _.values(people) });
 });
 
+
+// url: http://localhost:8000/api/people?firstName=lamp&lastName=love&address=portland
+// returns: {"people": []}
 app.post('/api/people', function(req, res) {
   var person = _.pick(req.body, 'firstName', 'lastName', 'address');
-  person.id = id++;
-  people[person.id] = person;
   res.json({ person: person });
+  Person.forge(person).save().then(function(person) {
+  console.log('created a person %j', person.toJSON());
+})
+.done();
 });
 
 app.put('/api/people/:id', function(req, res) {

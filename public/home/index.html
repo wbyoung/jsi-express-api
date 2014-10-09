@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/assets/ico/favicon.ico">
+
+    <title>Express Example</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/application.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Address Book</h1>
+        <p class="lead">Add a new person.</p>
+        <input id="add-person-first-name" type="text" placeholder="First Name" class="form-control">
+        <input id="add-person-last-name" type="text" placeholder="Last Name" class="form-control">
+        <input id="add-person-address" type="text" placeholder="Address" class="form-control">
+        <p>
+          <a id="add-person" class="btn btn-lg btn-success" href="#" role="button">
+            Add Person
+          </a>
+        </p>
+      </div>
+      <p class="error predefined">
+        There was some sort of error.
+      </p>
+      <div id="people">
+      </div>
+    </div><!-- /container -->
+
+    <script id="people-template" type="text/x-handlebars-template">
+    <table>
+    {{#each people}}
+      <tr>
+        <td>{{#if firstName }}{{ firstName }}{{else}}No First Name{{/if}}</td>
+        <td>{{#if lastName }}{{ lastName }}{{else}}No Last Name{{/if}}</td>
+        <td>{{#if address }}{{ address }}{{else}}No Address{{/if}}</td>
+        <td><a href="#" class="person-delete" data-id="{{ id }}">Delete</a></td>
+      </tr>
+    {{/each}}
+    </table>
+    </script>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.3.0.js"></script>
+    <script type="text/javascript" src="/js/application.js"></script>
+  </body>
+</html>

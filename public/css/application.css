@@ -1,0 +1,27 @@
+.error.predefined {
+  display: none;
+}
+
+.jumbotron input {
+  margin-bottom: 1em;
+}
+
+table {
+  border-collapse: collapse;
+  padding: 2em 0em;
+  margin: 2em 0em;
+}
+table td {
+  padding: 1em 2em;
+}
+
+table td {
+  border: 1px solid #ccc;
+}
+table tr:nth-of-type(odd) td {
+  background-color: #eee;
+}
+
+table tr:nth-of-type(even) td {
+  background-color: #f6f6f6;
+}

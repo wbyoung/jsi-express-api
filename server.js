@@ -7,9 +7,15 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(require('morgan')('dev'));
+app.use(express.static(__dirname + '/public'));
 
 var id = 1;
 var people = {};
+
+app.get('/', function(req, res) {
+  res.redirect('/home/');
+});
 
 app.get('/api/people', function(req, res) {
   res.json({ people: _.values(people) });

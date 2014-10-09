@@ -38,10 +38,18 @@ describe('api', function() {
     };
     request.post(baseURL + '/api/people', { form: data }, function(err, response, body) {
       Person.fetchAll().then(function(people) {
-        // TODO: JSON response expectation
+        var bodyObject = JSON.parse(body);
+        delete bodyObject.person.id;
         var peopleWithoutIds = people.toJSON().map(function(person) {
           return _.omit(person, 'id');
         });
+        expect(bodyObject).to.eql({
+          person: {
+            firstName: 'Whitney',
+            lastName: 'Young',
+            address: 'Chicago'
+          }
+        })
         expect(peopleWithoutIds).to.eql([{
           firstName: 'Whitney',
           lastName: 'Young',
@@ -60,6 +68,8 @@ describe('api', function() {
       puppies: '12 of them'
     };
     request.post(baseURL + '/api/people', { form: data }, function(err, response, body) {
+      var bodyObject = JSON.parse(body);
+      expect(bodyObject).to.eql({ error: 'Invalid request. Properties don\'t match allowed values.' });
       expect(response.statusCode).to.eql(400);
       Person.fetchAll().then(function(people) {
         expect(people.toJSON()).to.eql([]);

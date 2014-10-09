@@ -16,8 +16,6 @@ app.use(express.static(__dirname + '/public'));
 
 var env = process.env.NODE_ENV || 'development';
 var knexConfig = require('./knexfile.js')[env];
-console.log(knexConfig);
-console.log(process.env.DATABASE_URL);
 var knex = require('knex')(knexConfig);
 var bookshelf = require('bookshelf')(knex);
 
@@ -40,20 +38,17 @@ app.get('/api/people', function(req, res) {
 // url: http://localhost:8000/api/people?firstName=lamp&lastName=love&address=portland
 // returns: {"people": []}
 app.post('/api/people', function(req, res) {
-  console.log('starting post request');
   var properties = _.keys(req.body);
+  // TODO: this assumes some order of things which is wrong
   if (!_.isEqual(properties, ['firstName', 'lastName', 'address'])) {
-    console.log('sending 400 response');
     res.status(400);
     res.json({ error: 'Invalid request. Properties don\'t match allowed values.' });
   }
   else {
-    console.log('creating 400 error');
     Person.forge(req.body).save().then(function(person) {
       res.json({ person: person });
     })
     .catch(function(error) {
-      console.log('got error: %s', error);
       res.status(500);
       res.json({ error: 'Unhandled exception' });
     })

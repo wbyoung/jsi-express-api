@@ -4,10 +4,14 @@ var knexConfig = require('./knexfile.js')[env];
 var knex = require('knex')(knexConfig);
 var bookshelf = require('bookshelf')(knex);
 
-var Country = bookshelf.Model.extend({
-  tableName: 'countries'
+var Persons = bookshelf.Model.extend({
+  tableName: 'people'
 });
 
+Persons.forge({ firstName: '', lastName: '', address: '' }).save().then(function(country) {
+  console.log('created a person %j', people.toJSON());
+})
+.done();
 
 var _ = require('lodash');
 var express = require('express');
@@ -20,6 +24,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var id = 1;
+// people is a class of things that goes to a table called people
+// instead of using this at all, you're going to do those 4 things
+// with the database
 var people = {};
 
 app.get('/api/people', function(req, res) {

@@ -1,3 +1,14 @@
+// Knexfile Configuration, paths for needed libraries
+var env = process.env.NODE_ENV || 'development';
+var knexConfig = require('./knexfile.js')[env];
+var knex = require('knex')(knexConfig);
+var bookshelf = require('bookshelf')(knex);
+
+var Country = bookshelf.Model.extend({
+  tableName: 'countries'
+});
+
+
 var _ = require('lodash');
 var express = require('express');
 var app = express();

@@ -46,7 +46,6 @@ app.post('/api/people', function(req, res) {
 });
 
 app.put('/api/people/:id', function(req, res) {
-  console.log(req.params.id);
   var person = people[req.params.id];
   if (person) {
     person = _.pick(req.body, 'firstName', 'lastName', 'address');

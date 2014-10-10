@@ -38,6 +38,7 @@ app.get('/api/people', function(req, res) {
 // url: http://localhost:8000/api/people?firstName=lamp&lastName=love&address=portland
 // returns: {"people": []}
 app.post('/api/people', function(req, res) {
+
   var properties = _.keys(req.body);
   // TODO: this assumes some order of things which is wrong
   if (!_.isEqual(properties, ['firstName', 'lastName', 'address'])) {
@@ -84,6 +85,7 @@ app.delete('/api/people/:id', function(req, res) {
 // curl -X PUT --data "firstName=Whitney&lastName=Young&address=Nowhere" http://localhost:8000/api/people/1
 // curl -X DELETE http://localhost:8000/api/people/1
 
+
 module.exports = {
   app: app,
   knex: knex,
@@ -97,3 +99,4 @@ if (require.main === module) {
     console.log('Listening on port %d', server.address().port);
   });
 }
+

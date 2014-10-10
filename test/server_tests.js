@@ -27,7 +27,11 @@ describe('api', function() {
   });
 
   beforeEach(function(done) {
-    knex('people').delete().then(function() { done(); }, done);
+    knex('people').delete()
+    .then(function() {
+      return knex.raw('alter sequence people_id_seq restart');
+    })
+    .then(function() { done(); }, done);
   });
 
   it('handles POST /api/people', function(done) {
@@ -38,19 +42,16 @@ describe('api', function() {
     };
     request.post(baseURL + '/api/people', { form: data }, function(err, response, body) {
       Person.fetchAll().then(function(people) {
-        var bodyObject = JSON.parse(body);
-        delete bodyObject.person.id;
-        var peopleWithoutIds = people.toJSON().map(function(person) {
-          return _.omit(person, 'id');
-        });
-        expect(bodyObject).to.eql({
+        expect(JSON.parse(body)).to.eql({
           person: {
+            id: 1,
             firstName: 'Whitney',
             lastName: 'Young',
             address: 'Chicago'
           }
         })
-        expect(peopleWithoutIds).to.eql([{
+        expect(people.toJSON()).to.eql([{
+          id: 1,
           firstName: 'Whitney',
           lastName: 'Young',
           address: 'Chicago'
@@ -68,8 +69,7 @@ describe('api', function() {
       puppies: '12 of them'
     };
     request.post(baseURL + '/api/people', { form: data }, function(err, response, body) {
-      var bodyObject = JSON.parse(body);
-      expect(bodyObject).to.eql({ error: 'Invalid request. Properties don\'t match allowed values.' });
+      expect(JSON.parse(body)).to.eql({ error: 'Invalid request. Properties don\'t match allowed values.' });
       expect(response.statusCode).to.eql(400);
       Person.fetchAll().then(function(people) {
         expect(people.toJSON()).to.eql([]);

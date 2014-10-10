@@ -40,6 +40,7 @@ app.get('/api/people', function(req, res) {
 app.post('/api/people', function(req, res) {
 
   var properties = _.keys(req.body);
+  // TODO: this assumes some order of things which is wrong
   if (!_.isEqual(properties, ['firstName', 'lastName', 'address'])) {
     res.status(400);
     res.json({ error: 'Invalid request. Properties don\'t match allowed values.' });
@@ -94,7 +95,7 @@ module.exports = {
 
 // if this was done via the command line & not required from another file
 if (require.main === module) {
-  var server = app.listen(8000, function() {
+  var server = app.listen(process.env.PORT || 8000, function() {
     console.log('Listening on port %d', server.address().port);
   });
 }
